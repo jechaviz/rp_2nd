@@ -64,6 +64,7 @@ window.SITE_CONFIG = {
     // Show login screen
     const loginHtml = `
       <div id="login-screen">
+        <button id="login-lang-toggle" class="login-lang-btn">\${lang === 'en' ? 'ES' : 'EN'}</button>
         <div class="login-card">
           <div class="login-logo">RP RENTAL</div>
           <div class="login-title">${conf.loginUI.title[lang]}</div>
@@ -100,6 +101,15 @@ window.SITE_CONFIG = {
     document.getElementById('login-btn').addEventListener('click', handleLogin);
     document.getElementById('site-pwd').addEventListener('keypress', (e) => {
       if (e.key === 'Enter') handleLogin();
+    });
+
+    document.getElementById('login-lang-toggle').addEventListener('click', () => {
+      const hash = window.location.hash;
+      const newHash = hash.includes('/en/') 
+        ? hash.replace('/en/', '/es/') 
+        : (hash.includes('/es/') ? hash.replace('/es/', '/en/') : '#/en/');
+      window.location.hash = newHash;
+      window.location.reload();
     });
 
     return false;
