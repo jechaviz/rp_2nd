@@ -1,4 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="48" fill="#020617" stroke="#38bdf8" stroke-width="2"/>
-  <text x="50" y="66" font-family="'Outfit', 'Inter', sans-serif" font-size="42" font-weight="900" fill="#38bdf8" text-anchor="middle">JC</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+  <polyline points="14 2 14 8 20 8"></polyline>
+  <line x1="16" y1="13" x2="8" y2="13"></line>
+  <line x1="16" y1="17" x2="8" y2="17"></line>
+  <polyline points="10 9 9 9 8 9"></polyline>
 </svg>
