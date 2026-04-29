@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>RP Rental | Fase 2 - Propuesta Comercial</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description"
+    content="Propuesta comercial de la fase 2 de RP Rental. Integración Odoo-BAAN y optimización de facturación.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <!-- Inter & Outfit Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- Docsify v4 Themable Styles -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themable@0/dist/css/theme-simple.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css"
+    title="docsify-darklight-theme" type="text/css">
+
+  <!-- Reveal.js Styles (Disabled by default to avoid theme interference) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css" id="reveal-css" disabled>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/black.css" id="reveal-theme" disabled>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="assets/style.css">
+
+  <script>
+    /* Critical theme initialization to avoid flash of unstyled content */
+    (function () {
+      const saved = window.localStorage.getItem('docsify-darklight-theme') || 'dark';
+      const isDark = saved === 'dark';
+      document.documentElement.classList.toggle('dark', isDark);
+      document.documentElement.classList.toggle('light', !isDark);
+      document.documentElement.setAttribute('data-theme', saved);
+      // Also apply to body to ensure background is correct immediately
+      document.addEventListener('DOMContentLoaded', () => {
+        document.body.classList.toggle('dark', isDark);
+        document.body.classList.toggle('light', !isDark);
+      });
+    })();
+  </script>
+</head>
+
+<body>
+  <div class="settings-bar">
+    <button id="present-toggle"><span>🖥️</span> PRESENTAR</button>
+    <button id="lang-toggle">EN</button>
+  </div>
+
+  <div id="app">Cargando propuesta...</div>
+
+  <!-- Reveal.js Container -->
+  <div id="reveal-container">
+    <div id="reveal-bg-animation">
+      <div class="bg-blob"></div>
+      <div class="bg-blob"></div>
+    </div>
+    <button id="close-present">✕ Salir</button>
+    <div class="reveal">
+      <div class="slides"></div>
+    </div>
+  </div>
+
+  <!-- Dependencies -->
+  <script src="https://cdn.jsdelivr.net/gh/exis9/squery@latest/squery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/markdown.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/notes/notes.js"></script>
+  
+  <!-- App Bootstrap -->
+  <script src="assets/script.js"></script>
+
+  <!-- Docsify Plugins (self-register into $docsify.plugins) -->
+  <script src="assets/plugins/plugin-mermaid-zoom.js"></script>
+  <script src="assets/plugins/plugin-theme.js"></script>
+  <script src="assets/plugins/plugin-title.js"></script>
+  <script src="assets/plugins/plugin-presentation.js"></script>
+  <script src="assets/plugins/plugin-toc.js"></script>
+
+  <!-- Docsify Core -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-themable@0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-namespaced@latest/dist/docsify-namespaced.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-mermaid@latest/dist/docsify-mermaid.js"></script>
+</body>
+
+</html>
