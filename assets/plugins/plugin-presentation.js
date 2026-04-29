@@ -115,25 +115,23 @@
       const bc = sectionName + (breadcrumb ? ` > ${breadcrumb}` : '');
 
       const notice = '<div class="confidential-notice">YEAIP SOLUCIONES SA DE CV — Confidencial</div>';
-      return `<section class="mermaid-slide"><div class="slide-inner"><div class="breadcrumb">${bc}</div>${headerHtml}<div class="mermaid" id="${mermaidId}">${mermaidContent.join('\n')}</div></div>${notice}${noteHtml}</section>`;
+      return `<section class="mermaid-slide"><div class="slide-inner">${notice}<div class="breadcrumb">${bc}</div>${headerHtml}<div class="mermaid" id="${mermaidId}">${mermaidContent.join('\n')}</div></div>${noteHtml}</section>`;
     }
 
     /* Regular slide */
     let slideMarkdown = '';
+    const isTitleSlide = hasH1 && !hasOtherContent;
+    
+    if (!isTitleSlide) {
+      slideMarkdown += `<div class="confidential-notice">YEAIP SOLUCIONES SA DE CV — Confidencial</div>\n`;
+    }
+
     const fullBc = sectionName + (breadcrumb ? ` > ${breadcrumb}` : '');
     if (fullBc) slideMarkdown += `<div class="breadcrumb">${fullBc}</div>\n\n`;
     slideMarkdown += mainContent.join('\n');
     if (noteContent.length) slideMarkdown += '\n\nNote: ' + noteContent.join(' ');
 
-    // Add confidentiality notice (except on title slides)
-    const isTitleSlide = hasH1 && !hasOtherContent;
-    const finalHtml = createSlideHtml(slideMarkdown, isTitleSlide, false);
-    
-    if (!isTitleSlide) {
-      const notice = '<div class="confidential-notice">YEAIP SOLUCIONES SA DE CV — Confidencial</div>';
-      return finalHtml.replace('</section>', notice + '</section>');
-    }
-    return finalHtml;
+    return createSlideHtml(slideMarkdown, isTitleSlide, false);
   }
 
   /* ── Markdown → slides ──────────────────────────────────────────────────── */
