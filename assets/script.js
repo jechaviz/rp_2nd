@@ -85,7 +85,17 @@ window.$docsify = {
     position: 'top-right'   // 'side' (right edge) | 'top-right' (fixed corner)
   },
 
-  plugins: []   // plugins self-register; keep array for compatibility
+  plugins: [
+    function (hook, vm) {
+      hook.afterEach(function (html, next) {
+        const isEn = window.location.hash.includes('/en/');
+        const footer = `<div class="site-footer">
+          ${isEn ? 'Confidential — Created by' : 'Confidencial — Creado por'} <strong>YEAIP SOLUCIONES SA DE CV</strong>
+        </div>`;
+        next(html + footer);
+      });
+    }
+  ]
 };
 
 /* ── Language toggle ────────────────────────────────────────────────────── */

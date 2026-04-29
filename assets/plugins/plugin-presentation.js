@@ -114,7 +114,8 @@
         ? `<aside class="notes">${noteContent.join(' ')}</aside>` : '';
       const bc = sectionName + (breadcrumb ? ` > ${breadcrumb}` : '');
 
-      return `<section class="mermaid-slide"><div class="slide-inner"><div class="breadcrumb">${bc}</div>${headerHtml}<div class="mermaid" id="${mermaidId}">${mermaidContent.join('\n')}</div></div>${noteHtml}</section>`;
+      const notice = '<div class="confidential-notice">YEAIP SOLUCIONES SA DE CV — Confidencial</div>';
+      return `<section class="mermaid-slide"><div class="slide-inner"><div class="breadcrumb">${bc}</div>${headerHtml}<div class="mermaid" id="${mermaidId}">${mermaidContent.join('\n')}</div></div>${notice}${noteHtml}</section>`;
     }
 
     /* Regular slide */
@@ -124,7 +125,10 @@
     slideMarkdown += mainContent.join('\n');
     if (noteContent.length) slideMarkdown += '\n\nNote: ' + noteContent.join(' ');
 
-    return createSlideHtml(slideMarkdown, hasH1 && !hasOtherContent, false);
+    // Add confidentiality notice
+    const notice = '<div class="confidential-notice">YEAIP SOLUCIONES SA DE CV — Confidencial</div>';
+    const finalHtml = createSlideHtml(slideMarkdown, hasH1 && !hasOtherContent, false);
+    return finalHtml.replace('</section>', notice + '</section>');
   }
 
   /* ── Markdown → slides ──────────────────────────────────────────────────── */
@@ -225,6 +229,20 @@
   async function startPresentation() {
     if (!currentMarkdown) { console.warn('[presentation] currentMarkdown is empty — skipping'); return; }
     if (isInitializing)   { console.warn('[presentation] already initializing — skipping'); return; }
+
+    // Password Protection
+    const isEn = window.location.hash.includes('/en/');
+    const savedAuth = window.sessionStorage.getItem('presentation-auth');
+    if (savedAuth !== 'true') {
+      const promptText = isEn ? 'Enter password to view presentation:' : 'Ingresa la contraseña para ver la presentación:';
+      const pwd = prompt(promptText);
+      if (pwd !== 'Rpp') {
+        alert(isEn ? 'Incorrect password.' : 'Contraseña incorrecta.');
+        return;
+      }
+      window.sessionStorage.setItem('presentation-auth', 'true');
+    }
+
     isInitializing = true;
     let initError = null;
 
