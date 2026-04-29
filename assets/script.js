@@ -30,8 +30,13 @@
           <div class="login-logo">RP RENTAL</div>
           <div class="login-title">${isEn ? 'Commercial Proposal Phase 2' : 'Propuesta Comercial Fase 2'}</div>
           <p>${isEn ? 'Please enter the password to access the documentation.' : 'Por favor ingresa la contraseña para acceder a la documentación.'}</p>
-          <input type="password" id="site-pwd" placeholder="${isEn ? 'Password' : 'Contraseña'}" autofocus>
+          <div class="input-group">
+            <input type="password" id="site-pwd" placeholder="${isEn ? 'Password' : 'Contraseña'}" autofocus>
+          </div>
           <button id="login-btn">${isEn ? 'Enter' : 'Entrar'}</button>
+          <div class="login-notice">
+            ${isEn ? 'CONFIDENTIAL — PROTECTED CONTENT' : 'CONFIDENCIAL — CONTENIDO PROTEGIDO'}
+          </div>
           <div class="login-footer">YEAIP SOLUCIONES SA DE CV</div>
         </div>
       </div>
