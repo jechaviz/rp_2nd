@@ -125,10 +125,15 @@
     slideMarkdown += mainContent.join('\n');
     if (noteContent.length) slideMarkdown += '\n\nNote: ' + noteContent.join(' ');
 
-    // Add confidentiality notice
-    const notice = '<div class="confidential-notice">YEAIP SOLUCIONES SA DE CV — Confidencial</div>';
-    const finalHtml = createSlideHtml(slideMarkdown, hasH1 && !hasOtherContent, false);
-    return finalHtml.replace('</section>', notice + '</section>');
+    // Add confidentiality notice (except on title slides)
+    const isTitleSlide = hasH1 && !hasOtherContent;
+    const finalHtml = createSlideHtml(slideMarkdown, isTitleSlide, false);
+    
+    if (!isTitleSlide) {
+      const notice = '<div class="confidential-notice">YEAIP SOLUCIONES SA DE CV — Confidencial</div>';
+      return finalHtml.replace('</section>', notice + '</section>');
+    }
+    return finalHtml;
   }
 
   /* ── Markdown → slides ──────────────────────────────────────────────────── */

@@ -660,7 +660,7 @@ body.is-presenting #reveal-container {
 .confidential-notice {
   position: absolute;
   top: 25px;
-  left: 30px;
+  left: 80px; /* Aligned with slide padding */
   text-align: left;
   font-family: var(--heading-font-family);
   font-size: 10px;
