@@ -9,16 +9,6 @@
 (function () {
   'use strict';
 
-  window.$docsify = window.$docsify || {};
-  window.$docsify.darklightTheme = {
-    siteFont:       'Inter, sans-serif',
-    defaultTheme:   'dark',
-    codeFontFamily: 'Roboto Mono, monospace',
-    bodyFontSize:   '16px',
-    dark:  { accent: '#38bdf8', background: '#020617', textColor: '#cbd5e0', sidebarSublink: '#94a3b8' },
-    light: { accent: '#0284c7', background: '#ffffff', textColor: '#1e293b', sidebarSublink: '#475569' }
-  };
-
   function syncToHtml() {
     const saved = window.localStorage.getItem('docsify-darklight-theme') || 'dark';
     const isDark = saved === 'dark';
@@ -29,44 +19,33 @@
     html.classList.toggle('light', !isDark);
     html.setAttribute('data-theme', theme);
     
-    // Also sync body just in case
     document.body.classList.toggle('dark', isDark);
     document.body.classList.toggle('light', !isDark);
+
+    // Update our custom toggle icon if it exists
+    const themeBtn = document.getElementById('theme-toggle');
+    if (themeBtn) {
+      themeBtn.innerHTML = isDark ? '<span>🌙</span>' : '<span>☀️</span>';
+    }
   }
 
-  // Catch clicks on the theme toggle and poll for a short period
+  // Handle our custom toggle click
   document.addEventListener('click', (e) => {
-    if (e.target.closest('#docsify-darklight-theme')) {
-      let attempts = 0;
-      const interval = setInterval(() => {
-        syncToHtml();
-        if (++attempts > 10) clearInterval(interval);
-      }, 150);
+    if (e.target.closest('#theme-toggle')) {
+      const current = window.localStorage.getItem('docsify-darklight-theme') || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      window.localStorage.setItem('docsify-darklight-theme', next);
+      syncToHtml();
+      
+      // Also try to click the hidden plugin button if it exists to keep it in sync
+      const pluginBtn = document.getElementById('docsify-darklight-theme');
+      if (pluginBtn) pluginBtn.click();
     }
   });
 
-  // Storage listener for other tabs
   window.addEventListener('storage', (e) => {
     if (e.key === 'docsify-darklight-theme') syncToHtml();
   });
-
-  function integrateThemeButton() {
-    const btnEl = document.getElementById('docsify-darklight-theme');
-    const barEl = document.querySelector('.settings-bar');
-    if (btnEl && barEl && !btnEl.classList.contains('integrated')) {
-      btnEl.classList.add('integrated');
-      // Find the language toggle to insert before it
-      const langBtn = document.getElementById('lang-toggle');
-      if (langBtn) {
-        barEl.insertBefore(btnEl, langBtn);
-      } else {
-        barEl.appendChild(btnEl);
-      }
-      syncToHtml();
-      return true;
-    }
-    return false;
-  }
 
   window.$docsify = window.$docsify || {};
   window.$docsify.plugins = (window.$docsify.plugins || []).concat(
@@ -74,25 +53,9 @@
       hook.init(function() {
         syncToHtml();
       });
-
-      hook.doneEach(function () {
-        if (!integrateThemeButton()) {
-          // Use a MutationObserver as it's more reliable than intervals
-          const observer = new MutationObserver((mutations, obs) => {
-            if (integrateThemeButton()) {
-              obs.disconnect();
-            }
-          });
-          observer.observe(document.body, { childList: true, subtree: true });
-          
-          // Fallback interval just in case
-          setTimeout(() => observer.disconnect(), 5000);
-        }
+      hook.doneEach(function() {
+        syncToHtml();
       });
     }
   );
-
-  window.addEventListener('storage', (e) => {
-    if (e.key === 'docsify-darklight-theme') syncToHtml();
-  });
 })();

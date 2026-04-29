@@ -33,6 +33,7 @@
   --base-background: #020617;
   --content-background: #020617;
   --background: #020617; /* Used by darklight theme plugin */
+  --bg-base: #020617;
 }
 
 /* Default Theme Variables (Dark) */
@@ -120,11 +121,9 @@ body.light .markdown-section h3,
   font-weight: 700;
 }
 
-/* Specific override for the main container background */
-/* Specific override for the main container background */
-#app, .markdown-section, body, html, main, .content {
+/* Specific override for the main container background - TARGET EVERYTHING */
+#app, .markdown-section, body, html, main, .content, section, .sidebar, .sidebar-toggle, #doc-toc, .settings-bar {
   background-color: var(--bg-base) !important;
-  background-image: none !important;
 }
 
 body.light #app, 
@@ -132,9 +131,11 @@ html.light #app,
 [data-theme='light'] #app,
 [data-theme='light'] .markdown-section,
 [data-theme='light'] main,
-[data-theme='light'] .content {
+[data-theme='light'] .content,
+[data-theme='light'] section,
+[data-theme='light'] .sidebar,
+[data-theme='light'] #doc-toc {
   background-color: #ffffff !important;
-  background-image: none !important;
 }
 
 body {
@@ -146,19 +147,7 @@ body {
 }
 
 body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  opacity: 0.15;
-  background-image:
-    radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.4) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.4) 0px, transparent 50%);
-  pointer-events: none;
-  transition: opacity 0.5s ease;
+  display: none !important; /* Temporarily disable to check if it causes the strips */
 }
 
 body.light::before {
@@ -352,51 +341,48 @@ body.close .settings-bar {
   padding-top: 20px !important;
 }
 
-#lang-toggle, #present-toggle {
+#theme-toggle, #present-toggle, #lang-toggle {
   background: transparent;
   color: var(--heading-h1-color);
   border: none;
   font-weight: 800;
   cursor: pointer;
   font-family: var(--heading-font-family);
-  font-size: 12px;
+  font-size: 14px;
   text-transform: uppercase;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
-  border-radius: 20px;
-  transition: background 0.3s ease;
-}
-
-#lang-toggle:hover, #present-toggle:hover {
-  background: rgba(56, 189, 248, 0.1);
-}
-
-#docsify-darklight-theme.integrated {
-  position: static !important;
-  margin: 0 !important;
-  width: 32px !important;
-  height: 32px !important;
-  display: flex !important;
-  align-items: center;
   justify-content: center;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  cursor: pointer;
-  z-index: 1001;
+  gap: 6px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: background 0.3s ease, transform 0.3s ease;
 }
 
-#docsify-darklight-theme.integrated #docsify-darklight-theme-icon {
-  font-size: 18px !important;
-  color: var(--theme-color) !important;
+#theme-toggle span {
+  font-size: 18px;
 }
 
-/* Ensure the button is never hidden by the plugin's default styles */
+#theme-toggle:hover, #present-toggle:hover, #lang-toggle:hover {
+  background: rgba(56, 189, 248, 0.1);
+  transform: scale(1.1);
+}
+
+#present-toggle {
+  width: auto;
+  padding: 0 12px;
+  border-radius: 20px;
+}
+
+#lang-toggle {
+  width: 40px;
+}
+
+/* Hide the old plugin button completely */
 #docsify-darklight-theme {
-  visibility: visible !important;
-  opacity: 1 !important;
+  display: none !important;
+  visibility: hidden !important;
 }
 
 /* Presentation Styles */
