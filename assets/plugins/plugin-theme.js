@@ -55,8 +55,14 @@
     const barEl = document.querySelector('.settings-bar');
     if (btnEl && barEl && !btnEl.classList.contains('integrated')) {
       btnEl.classList.add('integrated');
-      barEl.appendChild(btnEl);
-      syncToHtml(); // Initial sync
+      // Find the language toggle to insert before it
+      const langBtn = document.getElementById('lang-toggle');
+      if (langBtn) {
+        barEl.insertBefore(btnEl, langBtn);
+      } else {
+        barEl.appendChild(btnEl);
+      }
+      syncToHtml();
       return true;
     }
     return false;
@@ -70,13 +76,17 @@
       });
 
       hook.doneEach(function () {
-        // Try integration immediately
         if (!integrateThemeButton()) {
-          // Poll aggressively for a few seconds
-          let count = 0;
-          const iv = setInterval(function () {
-            if (integrateThemeButton() || ++count > 20) clearInterval(iv);
-          }, 200);
+          // Use a MutationObserver as it's more reliable than intervals
+          const observer = new MutationObserver((mutations, obs) => {
+            if (integrateThemeButton()) {
+              obs.disconnect();
+            }
+          });
+          observer.observe(document.body, { childList: true, subtree: true });
+          
+          // Fallback interval just in case
+          setTimeout(() => observer.disconnect(), 5000);
         }
       });
     }

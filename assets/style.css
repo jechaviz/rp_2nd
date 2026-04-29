@@ -121,15 +121,20 @@ body.light .markdown-section h3,
 }
 
 /* Specific override for the main container background */
-#app, .markdown-section, body, html {
+/* Specific override for the main container background */
+#app, .markdown-section, body, html, main, .content {
   background-color: var(--bg-base) !important;
+  background-image: none !important;
 }
 
 body.light #app, 
 html.light #app,
 [data-theme='light'] #app,
-[data-theme='light'] .markdown-section {
+[data-theme='light'] .markdown-section,
+[data-theme='light'] main,
+[data-theme='light'] .content {
   background-color: #ffffff !important;
+  background-image: none !important;
 }
 
 body {
