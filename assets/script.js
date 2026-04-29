@@ -93,7 +93,9 @@ sq(function () {
   const $langToggle = sq('#lang-toggle');
 
   const updateLabel = function () {
-    $langToggle.html(window.location.hash.includes('/en/') ? 'ES' : 'EN');
+    const isEn = window.location.hash.includes('/en/');
+    $langToggle.html(isEn ? 'ES' : 'EN');
+    sq('#present-toggle').html(isEn ? '<span>🖥️</span> PRESENT' : '<span>🖥️</span> PRESENTAR');
   };
 
   $langToggle.on('click', function () {
