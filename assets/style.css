@@ -27,6 +27,9 @@
   /* Layout Defaults */
   --content-max-width: 65em;
   --markdown-section-padding: 0px 15px 40px;
+  
+  /* Docsify Themable Overrides */
+  --sidebar-width: 300px;
 }
 
 /* Default Theme Variables (Dark) */
@@ -233,6 +236,17 @@ body.close .sidebar-toggle {
   font-weight: 800 !important;
 }
 
+/* Ensure sidebar takes full height and has a relative container for settings */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding-bottom: 80px !important; /* Space for settings bar if it were absolute */
+}
+
 .markdown-section h1 {
   font-family: var(--heading-font-family);
   font-weight: 900;
@@ -292,8 +306,8 @@ body.close .sidebar-toggle {
 .settings-bar {
   position: fixed;
   bottom: 25px;
-  left: 15px;
-  width: calc(var(--sidebar-width) - 30px);
+  left: 20px;
+  width: 260px; /* Fixed width to avoid calc issues */
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -310,9 +324,9 @@ body.close .sidebar-toggle {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Hide when sidebar is closed (mobile) */
+/* Hide when sidebar is closed */
 body.close .settings-bar {
-  left: -280px;
+  transform: translateX(-320px);
   opacity: 0;
 }
 

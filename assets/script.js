@@ -37,13 +37,10 @@ window.$docsify = {
   auto2top:        true,
   fallbackLanguages: ['es', 'en'],
 
-  /* Namespaced i18n */
-  namespaces: [{ id: 'lang', values: ['es', 'en'], optional: false }],
+  /* i18n Alias */
   alias: {
-    '/(es|en)/.+/_sidebar.md': '/$1/_sidebar.md',
-    '/(es|en)/.+/_navbar.md':  '/$1/_navbar.md',
-    '/en/(.*)':                '/en/$1',
-    '/es/(.*)':                '/es/$1',
+    '/(es|en)/.*/_sidebar.md': '/$1/_sidebar.md',
+    '/(es|en)/.*/_navbar.md':  '/$1/_navbar.md',
     '^/(?!en|es)(.*)':         '/es/$1'
   },
 
