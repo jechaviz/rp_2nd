@@ -66,16 +66,16 @@ window.SITE_CONFIG = {
       <div id="login-screen">
         <div class="login-card">
           <div class="login-logo">RP RENTAL</div>
-          <div class="login-title">\${conf.loginUI.title[lang]}</div>
-          <p>\${conf.loginUI.prompt[lang]}</p>
+          <div class="login-title">${conf.loginUI.title[lang]}</div>
+          <p>${conf.loginUI.prompt[lang]}</p>
           <div class="input-group">
-            <input type="password" id="site-pwd" placeholder="\${conf.loginUI.placeholder[lang]}" autofocus>
+            <input type="password" id="site-pwd" placeholder="${conf.loginUI.placeholder[lang]}" autofocus>
           </div>
-          <button id="login-btn">\${conf.loginUI.button[lang]}</button>
+          <button id="login-btn">${conf.loginUI.button[lang]}</button>
           <div class="login-notice">
-            \${conf.loginUI.warning[lang]}
+            ${conf.loginUI.warning[lang]}
           </div>
-          <div class="login-footer">\${conf.branding.company}</div>
+          <div class="login-footer">${conf.branding.company}</div>
         </div>
       </div>
     `;
@@ -187,7 +187,7 @@ window.$docsify = {
         const lang = window.getSiteLang();
         const conf = window.SITE_CONFIG.branding;
         const footer = `<div class="site-footer">
-          \${conf.footerPrefix[lang]} <strong>\${conf.company}</strong>
+          ${conf.footerPrefix[lang]} <strong>${conf.company}</strong>
         </div>`;
         next(html + footer);
       });
