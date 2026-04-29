@@ -64,7 +64,7 @@ window.SITE_CONFIG = {
     // Show login screen
     const loginHtml = `
       <div id="login-screen">
-        <button id="login-lang-toggle" class="login-lang-btn">\${lang === 'en' ? 'ES' : 'EN'}</button>
+        <button id="login-lang-toggle" class="login-lang-btn">${lang === 'en' ? 'ES' : 'EN'}</button>
         <div class="login-card">
           <div class="login-logo">RP RENTAL</div>
           <div class="login-title">${conf.loginUI.title[lang]}</div>
