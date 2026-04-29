@@ -455,24 +455,31 @@ body.close .settings-bar {
 .reveal section.title-slide h1 {
   font-size: 5rem !important;
   margin: 0 !important;
-  background: linear-gradient(135deg, #fff, var(--theme-color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+  background: linear-gradient(135deg, #ffffff, var(--theme-color)) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  filter: drop-shadow(0 10px 30px rgba(56, 189, 248, 0.4));
+  font-weight: 900 !important;
 }
 
 .reveal h2 {
+  color: #ffffff !important;
   border-bottom: 2px solid var(--theme-color);
   padding-bottom: 10px;
   margin-bottom: 30px !important;
+}
+
+.reveal .slides {
+  color: #cbd5e0 !important;
 }
 
 .reveal .breadcrumb {
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: var(--theme-color);
-  opacity: 0.7;
+  color: #38bdf8 !important; /* Force bright blue */
+  opacity: 0.9;
   margin-bottom: 15px;
   font-weight: 700;
   font-family: var(--heading-font-family);
