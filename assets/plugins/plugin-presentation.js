@@ -114,7 +114,10 @@
         ? `<aside class="notes">${noteContent.join(' ')}</aside>` : '';
       const bc = sectionName + (breadcrumb ? ` > ${breadcrumb}` : '');
 
-      const notice = '<div class="confidential-notice">YEAIP SOLUCIONES SA DE CV — Confidencial</div>';
+      const noticeText = window.SITE_CONFIG && window.getSiteLang
+          ? `${window.SITE_CONFIG.branding.company} — ${window.SITE_CONFIG.branding.presentationNotice[window.getSiteLang()]}`
+          : '';
+      const notice = noticeText ? `<div class="confidential-notice">${noticeText}</div>` : '';
       return `<section class="mermaid-slide"><div class="slide-inner">${notice}<div class="breadcrumb">${bc}</div>${headerHtml}<div class="mermaid" id="${mermaidId}">${mermaidContent.join('\n')}</div></div>${noteHtml}</section>`;
     }
 
@@ -123,7 +126,12 @@
     const isTitleSlide = hasH1 && !hasOtherContent;
     
     if (!isTitleSlide) {
-      slideMarkdown += `<div class="confidential-notice">YEAIP SOLUCIONES SA DE CV — Confidencial</div>\n`;
+      const noticeText = window.SITE_CONFIG && window.getSiteLang
+          ? `${window.SITE_CONFIG.branding.company} — ${window.SITE_CONFIG.branding.presentationNotice[window.getSiteLang()]}`
+          : '';
+      if (noticeText) {
+        slideMarkdown += `<div class="confidential-notice">${noticeText}</div>\n`;
+      }
     }
 
     const fullBc = sectionName + (breadcrumb ? ` > ${breadcrumb}` : '');

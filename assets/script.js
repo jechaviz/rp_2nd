@@ -25,10 +25,39 @@
   });
 })();
 
+/* ── Global Configuration & Utilities ─────────────────────────────────────── */
+window.getSiteLang = () => window.location.hash.includes('/en/') ? 'en' : 'es';
+
+window.SITE_CONFIG = {
+  auth: {
+    password: 'Rpp'
+  },
+  branding: {
+    company: 'YEAIP SOLUCIONES SA DE CV',
+    presentationNotice: {
+      es: 'Confidencial',
+      en: 'Confidential'
+    },
+    footerPrefix: {
+      es: 'Confidencial — Creado por',
+      en: 'Confidential — Created by'
+    }
+  },
+  loginUI: {
+    title: { es: 'Propuesta Comercial Fase 2', en: 'Commercial Proposal Phase 2' },
+    prompt: { es: 'Por favor ingresa la contraseña para acceder a la documentación.', en: 'Please enter the password to access the documentation.' },
+    placeholder: { es: 'Contraseña', en: 'Password' },
+    button: { es: 'Entrar', en: 'Enter' },
+    warning: { es: 'CONFIDENCIAL — CONTENIDO PROTEGIDO', en: 'CONFIDENTIAL — PROTECTED CONTENT' },
+    error: { es: 'Contraseña incorrecta.', en: 'Incorrect password.' }
+  }
+};
+
 /* ── Global Login Protection ────────────────────────────────────────────── */
 (function () {
   const checkAuth = function () {
-    const isEn = window.location.hash.includes('/en/');
+    const lang = window.getSiteLang();
+    const conf = window.SITE_CONFIG;
     const auth = window.sessionStorage.getItem('site-auth');
     if (auth === 'true') return true;
 
@@ -37,32 +66,34 @@
       <div id="login-screen">
         <div class="login-card">
           <div class="login-logo">RP RENTAL</div>
-          <div class="login-title">${isEn ? 'Commercial Proposal Phase 2' : 'Propuesta Comercial Fase 2'}</div>
-          <p>${isEn ? 'Please enter the password to access the documentation.' : 'Por favor ingresa la contraseña para acceder a la documentación.'}</p>
+          <div class="login-title">\${conf.loginUI.title[lang]}</div>
+          <p>\${conf.loginUI.prompt[lang]}</p>
           <div class="input-group">
-            <input type="password" id="site-pwd" placeholder="${isEn ? 'Password' : 'Contraseña'}" autofocus>
+            <input type="password" id="site-pwd" placeholder="\${conf.loginUI.placeholder[lang]}" autofocus>
           </div>
-          <button id="login-btn">${isEn ? 'Enter' : 'Entrar'}</button>
+          <button id="login-btn">\${conf.loginUI.button[lang]}</button>
           <div class="login-notice">
-            ${isEn ? 'CONFIDENTIAL — PROTECTED CONTENT' : 'CONFIDENCIAL — CONTENIDO PROTEGIDO'}
+            \${conf.loginUI.warning[lang]}
           </div>
-          <div class="login-footer">YEAIP SOLUCIONES SA DE CV</div>
+          <div class="login-footer">\${conf.branding.company}</div>
         </div>
       </div>
     `;
     
+    // We must use vanilla JS here because sQuery might not be loaded yet
+    // depending on the script injection order in index.html
     document.body.insertAdjacentHTML('afterbegin', loginHtml);
     document.body.classList.add('is-locked');
 
     const handleLogin = function () {
       const pwd = document.getElementById('site-pwd').value;
-      if (pwd === 'Rpp') {
+      if (pwd === conf.auth.password) {
         window.sessionStorage.setItem('site-auth', 'true');
         document.getElementById('login-screen').remove();
         document.body.classList.remove('is-locked');
         window.location.reload();
       } else {
-        alert(isEn ? 'Incorrect password.' : 'Contraseña incorrecta.');
+        alert(conf.loginUI.error[lang]);
       }
     };
 
@@ -153,9 +184,10 @@ window.$docsify = {
   plugins: [
     function (hook, vm) {
       hook.afterEach(function (html, next) {
-        const isEn = window.location.hash.includes('/en/');
+        const lang = window.getSiteLang();
+        const conf = window.SITE_CONFIG.branding;
         const footer = `<div class="site-footer">
-          ${isEn ? 'Confidential — Created by' : 'Confidencial — Creado por'} <strong>YEAIP SOLUCIONES SA DE CV</strong>
+          \${conf.footerPrefix[lang]} <strong>\${conf.company}</strong>
         </div>`;
         next(html + footer);
       });
