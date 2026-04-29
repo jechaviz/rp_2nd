@@ -29,6 +29,21 @@
       panel.id = PANEL_ID;
       const isEn = window.location.hash.includes('/en/');
       panel.setAttribute('aria-label', isEn ? 'Table of contents' : 'Tabla de contenido');
+      
+      // Add toggle button
+      const toggle = document.createElement('button');
+      toggle.className = 'toc-toggle';
+      toggle.innerHTML = '<span>☰</span>';
+      toggle.onclick = function() {
+        panel.classList.toggle('toc-collapsed');
+      };
+      panel.appendChild(toggle);
+      
+      // Create a container for the content
+      const inner = document.createElement('div');
+      inner.className = 'toc-inner';
+      panel.appendChild(inner);
+      
       document.body.appendChild(panel);
     }
     return panel;
@@ -77,7 +92,7 @@
     });
     html += '</ul>';
 
-    panel.innerHTML = html;
+    panel.querySelector('.toc-inner').innerHTML = html;
     panel.classList.add('toc-visible');
 
     // Smooth scroll on click (prevent default hash jump, use scrollIntoView)
