@@ -56,6 +56,9 @@ body.light,
   --sidebar-background: #ffffff !important;
   --sidebar-nav-link-color: #334155 !important;
   --theme-color: #0284c7 !important;
+  --glass-bg: rgba(255, 255, 255, 0.8) !important;
+  --glass-border: rgba(0, 0, 0, 0.1) !important;
+  --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
 }
 
 html.light body,
