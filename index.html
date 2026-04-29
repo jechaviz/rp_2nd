@@ -35,7 +35,11 @@
   <script>
     /* Critical theme initialization to avoid flash of unstyled content */
     (function () {
-      const saved = window.localStorage.getItem('docsify-darklight-theme') || 'dark';
+      let saved = window.localStorage.getItem('docsify-darklight-theme');
+      if (!saved) {
+        saved = 'dark';
+        window.localStorage.setItem('docsify-darklight-theme', 'dark');
+      }
       const isDark = saved === 'dark';
       document.documentElement.classList.toggle('dark', isDark);
       document.documentElement.classList.toggle('light', !isDark);

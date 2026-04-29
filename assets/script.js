@@ -10,10 +10,19 @@
 
 /* ── Theme class on <html> (prevents flash of unstyled content) ─────────── */
 (function () {
-  const saved = window.localStorage.getItem('docsify-darklight-theme') || 'dark';
+  let saved = window.localStorage.getItem('docsify-darklight-theme');
+  if (!saved) {
+    saved = 'dark';
+    window.localStorage.setItem('docsify-darklight-theme', 'dark');
+  }
   const isDark = saved === 'dark';
   const $html = sq('html');
   $html.toggleClass('dark', isDark).toggleClass('light', !isDark).attr('data-theme', saved);
+  
+  // Ensure body also gets it early
+  document.addEventListener('DOMContentLoaded', () => {
+    sq('body').toggleClass('dark', isDark).toggleClass('light', !isDark);
+  });
 })();
 
 /* ── Global Login Protection ────────────────────────────────────────────── */
