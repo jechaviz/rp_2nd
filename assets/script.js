@@ -16,6 +16,57 @@
   $html.toggleClass('dark', isDark).toggleClass('light', !isDark).attr('data-theme', saved);
 })();
 
+/* ── Global Login Protection ────────────────────────────────────────────── */
+(function () {
+  const checkAuth = function () {
+    const isEn = window.location.hash.includes('/en/');
+    const auth = window.sessionStorage.getItem('site-auth');
+    if (auth === 'true') return true;
+
+    // Show login screen
+    const loginHtml = `
+      <div id="login-screen">
+        <div class="login-card">
+          <div class="login-logo">RP RENTAL</div>
+          <div class="login-title">${isEn ? 'Commercial Proposal Phase 2' : 'Propuesta Comercial Fase 2'}</div>
+          <p>${isEn ? 'Please enter the password to access the documentation.' : 'Por favor ingresa la contraseña para acceder a la documentación.'}</p>
+          <input type="password" id="site-pwd" placeholder="${isEn ? 'Password' : 'Contraseña'}" autofocus>
+          <button id="login-btn">${isEn ? 'Enter' : 'Entrar'}</button>
+          <div class="login-footer">YEAIP SOLUCIONES SA DE CV</div>
+        </div>
+      </div>
+    `;
+    
+    document.body.insertAdjacentHTML('afterbegin', loginHtml);
+    document.body.classList.add('is-locked');
+
+    const handleLogin = function () {
+      const pwd = document.getElementById('site-pwd').value;
+      if (pwd === 'Rpp') {
+        window.sessionStorage.setItem('site-auth', 'true');
+        document.getElementById('login-screen').remove();
+        document.body.classList.remove('is-locked');
+        window.location.reload();
+      } else {
+        alert(isEn ? 'Incorrect password.' : 'Contraseña incorrecta.');
+      }
+    };
+
+    document.getElementById('login-btn').addEventListener('click', handleLogin);
+    document.getElementById('site-pwd').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleLogin();
+    });
+
+    return false;
+  };
+
+  // Run check
+  if (!checkAuth()) {
+    // Stop Docsify from initializing if not auth
+    window.$docsify = { el: '#non-existent-element' };
+  }
+})();
+
 /* ── Default to Spanish on first load ───────────────────────────────────── */
 if (!window.location.hash || window.location.hash === '#/') {
   window.location.hash = '#/es/';

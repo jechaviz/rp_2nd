@@ -229,20 +229,6 @@
   async function startPresentation() {
     if (!currentMarkdown) { console.warn('[presentation] currentMarkdown is empty — skipping'); return; }
     if (isInitializing)   { console.warn('[presentation] already initializing — skipping'); return; }
-
-    // Password Protection
-    const isEn = window.location.hash.includes('/en/');
-    const savedAuth = window.sessionStorage.getItem('presentation-auth');
-    if (savedAuth !== 'true') {
-      const promptText = isEn ? 'Enter password to view presentation:' : 'Ingresa la contraseña para ver la presentación:';
-      const pwd = prompt(promptText);
-      if (pwd !== 'Rpp') {
-        alert(isEn ? 'Incorrect password.' : 'Contraseña incorrecta.');
-        return;
-      }
-      window.sessionStorage.setItem('presentation-auth', 'true');
-    }
-
     isInitializing = true;
     let initError = null;
 
