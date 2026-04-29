@@ -28,8 +28,11 @@
   --content-max-width: 65em;
   --markdown-section-padding: 0px 15px 40px;
   
-  /* Docsify Themable Overrides */
+  /* Docsify Themable & Darklight Overrides */
   --sidebar-width: 300px;
+  --base-background: #020617;
+  --content-background: #020617;
+  --background: #020617; /* Used by darklight theme plugin */
 }
 
 /* Default Theme Variables (Dark) */
@@ -118,10 +121,15 @@ body.light .markdown-section h3,
 }
 
 /* Specific override for the main container background */
+#app, .markdown-section, body, html {
+  background-color: var(--bg-base) !important;
+}
+
 body.light #app, 
 html.light #app,
-[data-theme='light'] #app {
-  background-color: var(--bg-base) !important;
+[data-theme='light'] #app,
+[data-theme='light'] .markdown-section {
+  background-color: #ffffff !important;
 }
 
 body {
@@ -363,11 +371,27 @@ body.close .settings-bar {
 #docsify-darklight-theme.integrated {
   position: static !important;
   margin: 0 !important;
-  width: 22px !important;
-  height: 22px !important;
+  width: 32px !important;
+  height: 32px !important;
   display: flex !important;
   align-items: center;
   justify-content: center;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+#docsify-darklight-theme.integrated #docsify-darklight-theme-icon {
+  font-size: 18px !important;
+  color: var(--theme-color) !important;
+}
+
+/* Ensure the button is never hidden by the plugin's default styles */
+#docsify-darklight-theme {
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 /* Presentation Styles */

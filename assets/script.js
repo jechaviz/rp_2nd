@@ -51,8 +51,8 @@ window.$docsify = {
     defaultTheme:   'dark',
     codeFontFamily: 'Roboto Mono, monospace',
     bodyFontSize:   '16px',
-    dark:  { accent: '#38bdf8', background: '#020617', textColor: '#cbd5e0' },
-    light: { accent: '#0284c7', background: '#f8fafc', textColor: '#1e293b' }
+    dark:  { accent: '#38bdf8', background: '#020617', textColor: '#cbd5e0', sidebarSublink: '#94a3b8' },
+    light: { accent: '#0284c7', background: '#ffffff', textColor: '#1e293b', sidebarSublink: '#475569' }
   },
 
   /* ── Plugin options ─────────────────────────────────────────────────────── */

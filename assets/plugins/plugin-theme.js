@@ -9,6 +9,16 @@
 (function () {
   'use strict';
 
+  window.$docsify = window.$docsify || {};
+  window.$docsify.darklightTheme = {
+    siteFont:       'Inter, sans-serif',
+    defaultTheme:   'dark',
+    codeFontFamily: 'Roboto Mono, monospace',
+    bodyFontSize:   '16px',
+    dark:  { accent: '#38bdf8', background: '#020617', textColor: '#cbd5e0', sidebarSublink: '#94a3b8' },
+    light: { accent: '#0284c7', background: '#ffffff', textColor: '#1e293b', sidebarSublink: '#475569' }
+  };
+
   function syncToHtml() {
     const saved = window.localStorage.getItem('docsify-darklight-theme') || 'dark';
     const isDark = saved === 'dark';
@@ -60,10 +70,13 @@
       });
 
       hook.doneEach(function () {
+        // Try integration immediately
         if (!integrateThemeButton()) {
+          // Poll aggressively for a few seconds
+          let count = 0;
           const iv = setInterval(function () {
-            if (integrateThemeButton()) clearInterval(iv);
-          }, 300);
+            if (integrateThemeButton() || ++count > 20) clearInterval(iv);
+          }, 200);
         }
       });
     }
