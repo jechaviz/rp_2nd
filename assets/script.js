@@ -30,7 +30,7 @@ window.getSiteLang = () => window.location.hash.includes('/en/') ? 'en' : 'es';
 
 window.SITE_CONFIG = {
   auth: {
-    password: 'Rpp'
+    password: '1Ac43E47-CAD0-4D8d-aeC4-8b69F991e444'
   },
   branding: {
     company: 'YEAIP SOLUCIONES SA DE CV',
