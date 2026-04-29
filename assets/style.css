@@ -659,12 +659,11 @@ body.is-presenting #reveal-container {
 
 .confidential-notice {
   position: absolute;
-  bottom: 20px;
-  left: 0;
-  right: 0;
-  text-align: center;
+  top: 25px;
+  left: 30px;
+  text-align: left;
   font-family: var(--heading-font-family);
-  font-size: 11px;
+  font-size: 10px;
   color: var(--sidebar-nav-link-color);
   opacity: 0.6;
   letter-spacing: 1px;
