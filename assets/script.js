@@ -26,7 +26,82 @@
 })();
 
 /* ── Global Configuration & Utilities ─────────────────────────────────────── */
-window.getSiteLang = () => window.location.hash.includes('/en/') ? 'en' : 'es';
+window.getSiteRouteInfo = function (rawHash) {
+  const hash = typeof rawHash === 'string' ? rawHash : (window.location.hash || '');
+  const normalizedHash = hash.replace(/^#/, '');
+  const hashParts = normalizedHash.split('?');
+  const pathPart = (hashParts[0] || '/').replace(/^\/+/, '');
+  const query = hashParts.length > 1 ? '?' + hashParts.slice(1).join('?') : '';
+  const segments = pathPart ? pathPart.split('/').filter(Boolean) : [];
+
+  let lang = 'es';
+  let pathSegments = segments;
+
+  if (segments[0] === 'en' || segments[0] === 'es') {
+    lang = segments[0];
+    pathSegments = segments.slice(1);
+  }
+
+  return {
+    lang: lang,
+    docPath: pathSegments.join('/') || 'README',
+    query: query
+  };
+};
+
+window.getSiteLang = function (rawHash) {
+  return window.getSiteRouteInfo(rawHash).lang;
+};
+
+window.getSiteBaseHash = function (lang) {
+  return '#/' + (lang === 'en' ? 'en' : 'es') + '/';
+};
+
+window.buildSiteLangHash = function (targetLang, rawHash) {
+  const info = window.getSiteRouteInfo(rawHash);
+  const base = window.getSiteBaseHash(targetLang);
+  const docPath = info.docPath === 'README' ? '' : info.docPath;
+  return docPath ? base + docPath + info.query : base + info.query;
+};
+
+window.prefixSiteLangHref = function (href, targetLang) {
+  if (!href || !href.startsWith('#/')) return href;
+  if (/^#\/(en|es)(\/|$|\?)/.test(href)) return href;
+
+  const lang = targetLang === 'en' ? 'en' : 'es';
+  const hrefParts = href.slice(2).split('?');
+  const pathPart = (hrefParts[0] || '').replace(/^\/+/, '');
+  const query = hrefParts.length > 1 ? '?' + hrefParts.slice(1).join('?') : '';
+
+  if (!pathPart || pathPart === 'README') {
+    return window.getSiteBaseHash(lang) + query;
+  }
+
+  return window.getSiteBaseHash(lang) + pathPart + query;
+};
+
+window.rewriteLanguageScopedLinks = function (root) {
+  const lang = window.getSiteLang();
+  const scope = root || document;
+  const anchors = scope.querySelectorAll('a[href^="#/"]');
+
+  anchors.forEach(function (anchor) {
+    const currentHref = anchor.getAttribute('href');
+    const nextHref = window.prefixSiteLangHref(currentHref, lang);
+    if (nextHref !== currentHref) {
+      anchor.setAttribute('href', nextHref);
+    }
+  });
+};
+
+window.syncDocumentLang = function (rawHash) {
+  document.documentElement.setAttribute('lang', window.getSiteLang(rawHash));
+};
+
+window.syncDocumentLang();
+window.addEventListener('hashchange', function () {
+  window.syncDocumentLang();
+});
 
 window.SITE_CONFIG = {
   auth: {
@@ -60,6 +135,9 @@ window.SITE_CONFIG = {
     const conf = window.SITE_CONFIG;
     const auth = window.sessionStorage.getItem('site-auth');
     if (auth === 'true') return true;
+
+    const existingScreen = document.getElementById('login-screen');
+    if (existingScreen) existingScreen.remove();
 
     // Show login screen
     const loginHtml = `
@@ -104,12 +182,9 @@ window.SITE_CONFIG = {
     });
 
     document.getElementById('login-lang-toggle').addEventListener('click', () => {
-      const hash = window.location.hash;
-      const newHash = hash.includes('/en/') 
-        ? hash.replace('/en/', '/es/') 
-        : (hash.includes('/es/') ? hash.replace('/es/', '/en/') : '#/en/');
-      window.location.hash = newHash;
-      window.location.reload();
+      const nextLang = lang === 'en' ? 'es' : 'en';
+      window.location.hash = window.buildSiteLangHash(nextLang);
+      checkAuth();
     });
 
     return false;
@@ -201,6 +276,13 @@ window.$docsify = {
         </div>`;
         next(html + footer);
       });
+    },
+    function (hook) {
+      hook.doneEach(function () {
+        setTimeout(function () {
+          window.rewriteLanguageScopedLinks();
+        }, 50);
+      });
     }
   ]
 };
@@ -210,19 +292,16 @@ sq(function () {
   const $langToggle = sq('#lang-toggle');
 
   const updateLabel = function () {
-    const isEn = window.location.hash.includes('/en/');
+    const isEn = window.getSiteLang() === 'en';
     $langToggle.html(isEn ? 'ES' : 'EN');
     sq('#present-toggle').html(isEn ? '<span>🖥️</span> PRESENT' : '<span>🖥️</span> PRESENTAR');
   };
 
   $langToggle.on('click', function () {
-    const hash    = window.location.hash;
-    const newHash = hash.includes('/es/')
-      ? hash.replace('/es/', '/en/')
-      : hash.replace('/en/', '/es/');
-    window.location.hash = newHash;
-    window.location.reload();
+    const nextLang = window.getSiteLang() === 'en' ? 'es' : 'en';
+    window.location.hash = window.buildSiteLangHash(nextLang);
   });
 
+  window.addEventListener('hashchange', updateLabel);
   updateLabel();
 });

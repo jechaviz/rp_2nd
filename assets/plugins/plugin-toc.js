@@ -27,8 +27,6 @@
     if (!panel) {
       panel = document.createElement('nav');
       panel.id = PANEL_ID;
-      const isEn = window.location.hash.includes('/en/');
-      panel.setAttribute('aria-label', isEn ? 'Table of contents' : 'Tabla de contenido');
       
       // Add toggle button
       const toggle = document.createElement('button');
@@ -46,6 +44,7 @@
       
       document.body.appendChild(panel);
     }
+    panel.setAttribute('aria-label', window.getSiteLang() === 'en' ? 'Table of contents' : 'Tabla de contenido');
     return panel;
   }
 

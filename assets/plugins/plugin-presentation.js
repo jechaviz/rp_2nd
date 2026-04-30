@@ -191,8 +191,8 @@
     deck.on('slidechanged', function () { lastSlideTime = deck.isLastSlide() ? Date.now() : 0; });
 
     window.activeAutoNav = function (e) {
-      const isEn  = window.location.hash.includes('/en/');
-      const base  = isEn ? '#/en/' : '#/es/';
+      const lang  = window.getSiteLang();
+      const base  = window.getSiteBaseHash(lang);
       const now   = Date.now();
       const fwd   = e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter';
       const back  = e.key === 'ArrowLeft';
@@ -227,8 +227,7 @@
 
     if (href && !href.startsWith('http') && !href.startsWith('#')) {
       e.preventDefault();
-      const isEn = window.location.hash.includes('/en/');
-      const base = isEn ? '#/en/' : '#/es/';
+      const base = window.getSiteBaseHash(window.getSiteLang());
       window.sessionStorage.setItem('restart-presentation', 'true');
       window.location.hash = base + href.replace('.md', '');
       showSpinner();
@@ -258,8 +257,8 @@
         return s.id === currentPath || (currentPath === '' && s.id === 'README');
       });
       const sectionInfo  = sectionOrder[sectionIdx] || (sectionOrder[0] || {});
-      const isEn = window.location.hash.includes('/en/');
-      const sectionLabel = isEn ? `Section ${sectionIdx + 1}` : `Sección ${sectionIdx + 1}`;
+      const lang = window.getSiteLang();
+      const sectionLabel = lang === 'en' ? `Section ${sectionIdx + 1}` : `Sección ${sectionIdx + 1}`;
 
       // Build & inject slides
       const slides = buildSlides(currentMarkdown, sectionLabel);
